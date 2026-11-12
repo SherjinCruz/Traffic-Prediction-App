@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Trivandrum Traffic Navigator</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
@@ -23,7 +23,7 @@
             --card-border: #e2e8f0;
             --card-active-bg: #f8faff;
             --card-active-border: #2563eb;
-            --legend-bg: rgba(255, 255, 255, 0.88);
+            --legend-bg: rgba(255, 255, 255, 0.9);
             --btn-sec-bg: #f8fafc;
             --btn-sec-hover: #f1f5f9;
             --primary: #2563eb;
@@ -45,7 +45,7 @@
             --card-border: #334155;
             --card-active-bg: #1e293b;
             --card-active-border: #3b82f6;
-            --legend-bg: rgba(15, 23, 42, 0.85);
+            --legend-bg: rgba(15, 23, 42, 0.88);
             --btn-sec-bg: #1e293b;
             --btn-sec-hover: #334155;
             --primary: #3b82f6;
@@ -60,37 +60,60 @@
             box-sizing: border-box;
             margin: 0;
             padding: 0;
+            -webkit-tap-highlight-color: transparent;
         }
 
+        html,
         body {
             font-family: var(--font-main);
-            display: flex;
+            width: 100%;
             height: 100vh;
+            height: 100dvh;
             overflow: hidden;
             background: var(--bg-page);
             color: var(--text-primary);
             transition: background-color 0.3s ease, color 0.3s ease;
         }
 
+        body {
+            display: flex;
+        }
+
         #sidebar {
             width: 450px;
             height: 100%;
             background: var(--bg-sidebar);
-            padding: 24px;
             box-shadow: 4px 0 24px rgba(0, 0, 0, 0.06);
-            overflow-y: auto;
-            z-index: 10;
+            z-index: 20;
             display: flex;
             flex-direction: column;
             border-right: 1px solid var(--border-color);
-            transition: background-color 0.3s ease, border-color 0.3s ease;
+            transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1), background-color 0.3s ease, border-color 0.3s ease;
         }
 
-        #sidebar::-webkit-scrollbar {
+        .drawer-top-sticky {
+            padding: 24px 24px 0 24px;
+            flex-shrink: 0;
+            background: var(--bg-sidebar);
+        }
+
+        .drawer-handle-area {
+            display: none;
+        }
+
+        #drawer-scroll-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 0 24px 24px 24px;
+            overscroll-behavior: contain;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        #drawer-scroll-content::-webkit-scrollbar {
             width: 6px;
         }
 
-        #sidebar::-webkit-scrollbar-thumb {
+        #drawer-scroll-content::-webkit-scrollbar-thumb {
             background-color: var(--border-color);
             border-radius: 4px;
         }
@@ -111,7 +134,8 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            gap: 10px;
+            margin-bottom: 18px;
             padding-bottom: 14px;
             border-bottom: 1px solid var(--border-color);
         }
@@ -120,11 +144,14 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            flex: 1;
+            min-width: 0;
         }
 
         .brand-icon {
             width: 32px;
             height: 32px;
+            flex-shrink: 0;
             border-radius: 8px;
             background: linear-gradient(135deg, #2563eb, #60a5fa);
             display: flex;
@@ -140,6 +167,7 @@
             font-weight: 700;
             letter-spacing: -0.3px;
             color: var(--text-primary);
+            line-height: 1.25;
         }
 
         .theme-toggle-btn {
@@ -153,7 +181,8 @@
             font-weight: 600;
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 5px;
+            flex-shrink: 0;
             transition: all 0.2s ease;
         }
 
@@ -187,7 +216,7 @@
         .autocomplete-container gmp-place-autocomplete {
             width: 100%;
             border-radius: 10px;
-            font-size: 14px;
+            font-size: 16px;
             border: 1.5px solid var(--border-color);
             box-sizing: border-box;
             display: block;
@@ -234,9 +263,9 @@
 
         .autocomplete-container input[type="text"] {
             width: 100%;
-            padding: 11px 14px;
+            padding: 12px 14px;
             border-radius: 10px;
-            font-size: 14px;
+            font-size: 16px;
             border: 1.5px solid var(--border-color);
             background-color: #ffffff;
             color: #0f172a !important;
@@ -265,7 +294,7 @@
         }
 
         .pac-item {
-            padding: 10px 14px !important;
+            padding: 11px 14px !important;
             font-size: 13.5px !important;
             color: #334155 !important;
             border-top: 1px solid #f1f5f9 !important;
@@ -312,11 +341,11 @@
         /* Buttons */
         .btn-action {
             width: 100%;
-            padding: 13px;
+            padding: 14px;
             background: linear-gradient(135deg, var(--primary), #3b82f6);
             color: #ffffff;
             font-weight: 600;
-            font-size: 14px;
+            font-size: 15px;
             border: none;
             border-radius: 10px;
             cursor: pointer;
@@ -327,6 +356,7 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
+            min-height: 46px;
         }
 
         .btn-action:hover {
@@ -341,19 +371,20 @@
 
         .btn-secondary {
             width: 100%;
-            padding: 9px 12px;
+            padding: 10px 12px;
             margin-bottom: 12px;
             background: var(--btn-sec-bg);
             color: var(--text-primary);
             border: 1.5px solid var(--border-color);
             border-radius: 8px;
-            font-size: 12.5px;
+            font-size: 13px;
             font-weight: 600;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 6px;
+            min-height: 42px;
             transition: all 0.2s ease;
         }
 
@@ -375,7 +406,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
         }
 
         .time-badge {
@@ -399,6 +430,7 @@
             -webkit-appearance: none;
             width: 100%;
             background: transparent;
+            touch-action: pan-y;
         }
 
         input[type=range]:focus {
@@ -414,13 +446,13 @@
         }
 
         input[type=range]::-webkit-slider-thumb {
-            height: 18px;
-            width: 18px;
+            height: 20px;
+            width: 20px;
             border-radius: 50%;
             background: var(--primary);
             cursor: pointer;
             -webkit-appearance: none;
-            margin-top: -6px;
+            margin-top: -7px;
             border: 2.5px solid #ffffff;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
             transition: transform 0.15s ease, background-color 0.15s ease;
@@ -437,6 +469,7 @@
             margin: 8px 0 14px 0;
             overflow-x: auto;
             padding-bottom: 4px;
+            -webkit-overflow-scrolling: touch;
         }
 
         .poi-toolbar::-webkit-scrollbar {
@@ -444,18 +477,19 @@
         }
 
         .poi-btn {
-            padding: 7px 12px;
+            padding: 8px 13px;
             background: var(--btn-sec-bg);
             color: var(--text-primary);
             border: 1px solid var(--border-color);
             border-radius: 20px;
-            font-size: 12px;
+            font-size: 12.5px;
             font-weight: 600;
             cursor: pointer;
             white-space: nowrap;
             display: flex;
             align-items: center;
             gap: 5px;
+            flex-shrink: 0;
             transition: all 0.2s ease;
         }
 
@@ -510,7 +544,8 @@
         .route-header {
             display: flex;
             justify-content: space-between;
-            align-items: center;
+            align-items: flex-start;
+            gap: 8px;
             font-weight: 700;
             font-size: 15px;
             margin-bottom: 8px;
@@ -527,6 +562,7 @@
             display: inline-flex;
             align-items: center;
             gap: 4px;
+            flex-shrink: 0;
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
         }
 
@@ -628,76 +664,231 @@
             border: 1px solid var(--border-color);
             font-family: monospace;
         }
+
+        /* =========================================================
+           GOOGLE MAPS-STYLE BOTTOM SHEET DRAWER FOR MOBILE PHONES
+           ========================================================= */
+        @media (max-width: 768px) {
+
+            html,
+            body {
+                overflow: hidden;
+                position: fixed;
+                inset: 0;
+            }
+
+            /* Fullscreen locked map in background */
+            #map-wrapper {
+                position: fixed;
+                inset: 0;
+                width: 100%;
+                height: 100%;
+                z-index: 1;
+            }
+
+            /* Floating bottom sheet drawer */
+            #sidebar {
+                position: fixed;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                width: 100%;
+                height: 76vh;
+                height: 76dvh;
+                max-height: calc(100dvh - 54px);
+                border-right: none;
+                border-top: 1px solid var(--border-color);
+                border-radius: 22px 22px 0 0;
+                box-shadow: 0 -8px 32px rgba(15, 23, 42, 0.22);
+                z-index: 30;
+                transform: translateY(0);
+            }
+
+            /* Collapsed state: leaves only pill handle and full title visible */
+            #sidebar.collapsed {
+                transform: translateY(calc(100% - 76px));
+            }
+
+            .drawer-top-sticky {
+                padding: 8px 16px 0 16px;
+                border-radius: 22px 22px 0 0;
+                user-select: none;
+            }
+
+            .drawer-handle-area {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                padding: 6px 0 10px 0;
+                cursor: pointer;
+            }
+
+            .drawer-pill {
+                width: 44px;
+                height: 5px;
+                border-radius: 999px;
+                background: var(--border-color);
+                transition: background-color 0.2s ease, width 0.2s ease;
+            }
+
+            .drawer-handle-area:active .drawer-pill {
+                background: var(--primary);
+                width: 54px;
+            }
+
+            #drawer-scroll-content {
+                padding: 4px 16px 36px 16px;
+            }
+
+            .header-bar {
+                margin-bottom: 12px;
+                padding-bottom: 12px;
+            }
+
+            #sidebar.collapsed .header-bar {
+                border-bottom-color: transparent;
+                margin-bottom: 0;
+            }
+
+            .brand-icon {
+                width: 28px;
+                height: 28px;
+                font-size: 15px;
+            }
+
+            .brand-title h2 {
+                font-size: 15px;
+                white-space: nowrap;
+                overflow: visible;
+            }
+
+            .theme-toggle-btn {
+                padding: 6px 10px;
+                font-size: 11.5px;
+            }
+
+            input[type=range]::-webkit-slider-thumb {
+                height: 24px;
+                width: 24px;
+                margin-top: -9px;
+            }
+
+            /* Move Legend to top-left so bottom sheet doesn't block it */
+            .legend {
+                top: 12px;
+                left: 12px;
+                bottom: auto;
+                padding: 9px 12px;
+                border-radius: 12px;
+                min-width: auto;
+                box-shadow: var(--shadow-md);
+            }
+
+            .legend-title {
+                font-size: 9.5px;
+                margin-bottom: 5px;
+            }
+
+            .legend-list {
+                gap: 4px;
+            }
+
+            .legend-row {
+                gap: 8px;
+            }
+
+            .legend-left {
+                font-size: 11px;
+                gap: 6px;
+            }
+
+            .legend-badge-dot {
+                width: 8px;
+                height: 8px;
+            }
+
+            .legend-subtext {
+                font-size: 9.5px;
+                padding: 1px 5px;
+            }
+        }
     </style>
 </head>
 
 <body>
 
     <div id="sidebar">
-        <div class="header-bar">
-            <div class="brand-title">
-                <div class="brand-icon">🧭</div>
-                <h2>Trivandrum Traffic Navigator</h2>
+        <div class="drawer-top-sticky">
+            <div class="drawer-handle-area" onclick="toggleDrawer()" title="Tap or swipe to hide/show menu">
+                <div class="drawer-pill"></div>
             </div>
-            <button class="theme-toggle-btn" id="theme-btn" onclick="toggleDarkMode()">🌙 Dark</button>
-        </div>
-
-        <div class="input-group">
-            <span class="label">Starting Point</span>
-            <div id="origin-autocomplete-box" class="autocomplete-container"></div>
-        </div>
-        <button class="btn-secondary" onclick="locateUser()">
-            <span>📍</span> Locate My Device
-        </button>
-
-        <div class="input-group">
-            <span class="label">Destination</span>
-            <div id="dest-autocomplete-box" class="autocomplete-container"></div>
-        </div>
-
-        <!-- Simulated Time Card -->
-        <div class="input-group">
-            <span class="label">24-Hour Simulation Engine</span>
-            <div class="slider-card">
-                <div class="slider-header">
-                    <span class="sim-date-badge" id="sim-date-badge">Simulating for Today</span>
-                    <span class="time-badge" id="time-display">08:00 AM</span>
+            <div class="header-bar">
+                <div class="brand-title" onclick="if(window.innerWidth <= 768) toggleDrawer()" style="cursor: pointer;">
+                    <div class="brand-icon">🧭</div>
+                    <h2>Trivandrum Traffic Navigator</h2>
                 </div>
-                <input id="time-slider" type="range" min="0" max="23.5" step="0.5" value="8"
-                    oninput="updateTimeDisplay()" onchange="handleSliderChange()" />
+                <button class="theme-toggle-btn" id="theme-btn" onclick="toggleDarkMode()">🌙 Dark</button>
             </div>
         </div>
 
-        <button class="btn-action" onclick="fetchRoutes()">
-            <span>⚡</span> Search Optimal Routes
-        </button>
-
-        <!-- Along-Route Discovery Bar -->
-        <div style="margin-top: 18px;">
-            <span class="label">Places Along Route (Places API)</span>
-            <div class="poi-toolbar">
-                <button class="poi-btn" onclick="searchPOIsAlongRoute('electric_vehicle_charging_station')">⚡ EV
-                    Chargers</button>
-                <button class="poi-btn" onclick="searchPOIsAlongRoute('parking')">🅿️ Parking</button>
-                <button class="poi-btn" onclick="searchPOIsAlongRoute('gas_station')">⛽ Fuel Pumps</button>
-                <button class="poi-btn" onclick="searchPOIsAlongRoute('cafe')">☕ Cafes</button>
+        <div id="drawer-scroll-content">
+            <div class="input-group">
+                <span class="label">Starting Point</span>
+                <div id="origin-autocomplete-box" class="autocomplete-container"></div>
             </div>
-        </div>
+            <button class="btn-secondary" onclick="locateUser()">
+                <span>📍</span> Locate My Device
+            </button>
 
-        <!-- Community Incident Reporting -->
-        <div style="margin-top: 10px; padding-top: 12px; border-top: 1px solid var(--border-color);">
-            <span class="label">Community Reporting</span>
-            <div style="display: flex; gap: 8px;">
-                <button class="btn-secondary"
-                    style="background:rgba(239, 68, 68, 0.08); color:#ef4444; border-color:rgba(239, 68, 68, 0.25);"
-                    onclick="reportRoadIssue('heavy_traffic')">⚠️ Report Jam</button>
-                <button class="btn-secondary"
-                    style="background:rgba(59, 130, 246, 0.08); color:#3b82f6; border-color:rgba(59, 130, 246, 0.25);"
-                    onclick="reportRoadIssue('waterlogging')">🌧️ Waterlogging</button>
+            <div class="input-group">
+                <span class="label">Destination</span>
+                <div id="dest-autocomplete-box" class="autocomplete-container"></div>
             </div>
-        </div>
 
-        <div id="routes-container" style="margin-top`: 8px;"></div>
+            <!-- Simulated Time Card -->
+            <div class="input-group">
+                <span class="label">24-Hour Simulation Engine</span>
+                <div class="slider-card">
+                    <div class="slider-header">
+                        <span class="sim-date-badge" id="sim-date-badge">Simulating for Today</span>
+                        <span class="time-badge" id="time-display">08:00 AM</span>
+                    </div>
+                    <input id="time-slider" type="range" min="0" max="23.5" step="0.5" value="8"
+                        oninput="updateTimeDisplay()" onchange="handleSliderChange()" />
+                </div>
+            </div>
+
+            <button class="btn-action" onclick="fetchRoutes()">
+                <span>⚡</span> Search Optimal Routes
+            </button>
+
+            <!-- Along-Route Discovery Bar -->
+            <div style="margin-top: 18px;">
+                <span class="label">Places Along Route (Places API)</span>
+                <div class="poi-toolbar">
+                    <button class="poi-btn" onclick="searchPOIsAlongRoute('electric_vehicle_charging_station')">⚡ EV
+                        Chargers</button>
+                    <button class="poi-btn" onclick="searchPOIsAlongRoute('parking')">🅿️ Parking</button>
+                    <button class="poi-btn" onclick="searchPOIsAlongRoute('gas_station')">⛽ Fuel Pumps</button>
+                    <button class="poi-btn" onclick="searchPOIsAlongRoute('cafe')">☕ Cafes</button>
+                </div>
+            </div>
+
+            <!-- Community Incident Reporting -->
+            <div style="margin-top: 10px; padding-top: 12px; border-top: 1px solid var(--border-color);">
+                <span class="label">Community Reporting</span>
+                <div style="display: flex; gap: 8px;">
+                    <button class="btn-secondary"
+                        style="background:rgba(239, 68, 68, 0.08); color:#ef4444; border-color:rgba(239, 68, 68, 0.25);"
+                        onclick="reportRoadIssue('heavy_traffic')">⚠️ Report Jam</button>
+                    <button class="btn-secondary"
+                        style="background:rgba(59, 130, 246, 0.08); color:#3b82f6; border-color:rgba(59, 130, 246, 0.25);"
+                        onclick="reportRoadIssue('waterlogging')">🌧️ Waterlogging</button>
+                </div>
+            </div>
+
+            <div id="routes-container" style="margin-top: 8px;"></div>
+        </div>
     </div>
 
     <div id="map-wrapper">
@@ -745,6 +936,7 @@
         let originMarker = null;
         let destMarker = null;
         let isDarkMode = false;
+        let isDrawerCollapsed = false;
         let sliderDebounceTimeout = null;
 
         let routeInfoWindow = null;
@@ -753,6 +945,7 @@
         let PinElement = null;
 
         const TVM_CENTER = { lat: 8.5241, lng: 76.9366 };
+        const isTouchDevice = () => window.matchMedia("(pointer: coarse)").matches || ("ontouchstart" in window);
 
         const DARK_MAP_STYLE = [
             { elementType: "geometry", stylers: [{ color: "#1e293b" }] },
@@ -768,6 +961,30 @@
             { featureType: "water", elementType: "geometry", stylers: [{ color: "#090d16" }] }
         ];
 
+        function toggleDrawer(forceCollapse = null) {
+            const sidebar = document.getElementById("sidebar");
+            isDrawerCollapsed = forceCollapse !== null ? forceCollapse : !isDrawerCollapsed;
+            sidebar.classList.toggle("collapsed", isDrawerCollapsed);
+        }
+
+        function setupDrawerSwipe() {
+            const topArea = document.querySelector(".drawer-top-sticky");
+            let touchStartY = 0;
+
+            topArea.addEventListener("touchstart", (e) => {
+                touchStartY = e.touches[0].clientY;
+            }, { passive: true });
+
+            topArea.addEventListener("touchend", (e) => {
+                const deltaY = e.changedTouches[0].clientY - touchStartY;
+                if (deltaY > 30 && !isDrawerCollapsed) {
+                    toggleDrawer(true);
+                } else if (deltaY < -30 && isDrawerCollapsed) {
+                    toggleDrawer(false);
+                }
+            }, { passive: true });
+        }
+
         function toggleDarkMode() {
             isDarkMode = !isDarkMode;
             document.body.classList.toggle("dark-mode", isDarkMode);
@@ -779,6 +996,7 @@
 
         async function initApp() {
             try {
+                setupDrawerSwipe();
                 const { Map } = await google.maps.importLibrary("maps");
                 const placesLib = await google.maps.importLibrary("places");
 
@@ -795,11 +1013,16 @@
                     zoom: 12,
                     mapId: "DEMO_MAP_ID",
                     mapTypeControl: false,
-                    fullscreenControl: false
+                    fullscreenControl: false,
+                    gestureHandling: "greedy"
                 });
 
                 routeInfoWindow = new google.maps.InfoWindow({
                     disableAutoPan: true
+                });
+
+                map.addListener("click", () => {
+                    if (routeInfoWindow) routeInfoWindow.close();
                 });
 
                 setupPlacesAutocomplete(placesLib);
@@ -1057,7 +1280,14 @@
 
                 activeRoutes = data.routes || [];
                 renderRoutes();
-                if (activeRoutes.length > 0) selectRoute(0);
+                if (activeRoutes.length > 0) {
+                    selectRoute(0);
+                    const scrollBox = document.getElementById("drawer-scroll-content");
+                    const routesContainer = document.getElementById("routes-container");
+                    if (window.innerWidth <= 768 && scrollBox && routesContainer) {
+                        scrollBox.scrollTo({ top: routesContainer.offsetTop - 12, behavior: "smooth" });
+                    }
+                }
             } catch (err) {
                 console.error("fetchRoutes error:", err);
             }
@@ -1071,7 +1301,12 @@
                 const card = document.createElement("div");
                 card.className = `route-card ${idx === selectedRouteIndex ? "active" : ""}`;
                 card.id = `route-${idx}`;
-                card.onclick = () => selectRoute(idx);
+                card.onclick = () => {
+                    selectRoute(idx);
+                    if (window.innerWidth <= 768) {
+                        toggleDrawer(true);
+                    }
+                };
 
                 const trafficDensityPct = Math.round((r.v_c_ratio || 0) * 100);
 
@@ -1096,9 +1331,9 @@
             });
         }
 
-        function selectRoute(index) {
+        function selectRoute(index, preservePopup = false) {
             selectedRouteIndex = index;
-            if (routeInfoWindow) routeInfoWindow.close();
+            if (!preservePopup && routeInfoWindow) routeInfoWindow.close();
             routePolylines.forEach(p => p.setMap(null));
             routePolylines = [];
 
@@ -1113,7 +1348,10 @@
 
             if (activeRoutes[index]) {
                 drawPath(activeRoutes[index], true, bounds, index);
-                map.fitBounds(bounds, 50);
+                if (!preservePopup) {
+                    const bottomPad = window.innerWidth <= 768 ? 110 : 40;
+                    map.fitBounds(bounds, { top: 80, right: 30, bottom: bottomPad, left: 30 });
+                }
             }
         }
 
@@ -1130,7 +1368,7 @@
                     geodesic: true,
                     strokeColor: segment.stroke_color,
                     strokeOpacity: isSelected ? 0.95 : 0.35,
-                    strokeWeight: isSelected ? 7 : 4,
+                    strokeWeight: isSelected ? 7 : 5,
                     zIndex: isSelected ? 10 : 1,
                     map: map
                 });
@@ -1139,7 +1377,7 @@
                 const peakDensity = Math.round((rObj.v_c_ratio || 0) * 100);
 
                 const infoContent = `
-                    <div style="font-family: var(--font-main, sans-serif); color: #0f172a; padding: 6px 4px; min-width: 195px;">
+                    <div style="font-family: var(--font-main, sans-serif); color: #0f172a; padding: 6px 4px; min-width: 185px;">
                         <div style="font-weight: 700; font-size: 14px; margin-bottom: 6px; border-bottom: 1px solid #e2e8f0; padding-bottom: 4px;">
                             ${rObj.name}
                         </div>
@@ -1151,32 +1389,39 @@
                     </div>
                 `;
 
-                // Hover In: Open popup with details
-                poly.addListener("mouseover", (e) => {
-                    if (routeInfoWindow) {
-                        routeInfoWindow.setContent(infoContent);
-                        routeInfoWindow.setPosition(e.latLng);
-                        routeInfoWindow.open(map);
-                    }
-                });
+                if (!isTouchDevice()) {
+                    poly.addListener("mouseover", (e) => {
+                        if (routeInfoWindow) {
+                            routeInfoWindow.setContent(infoContent);
+                            routeInfoWindow.setPosition(e.latLng);
+                            routeInfoWindow.open(map);
+                        }
+                    });
 
-                // Follow cursor along the polyline
-                poly.addListener("mousemove", (e) => {
-                    if (routeInfoWindow) {
-                        routeInfoWindow.setPosition(e.latLng);
-                    }
-                });
+                    poly.addListener("mousemove", (e) => {
+                        if (routeInfoWindow) {
+                            routeInfoWindow.setPosition(e.latLng);
+                        }
+                    });
 
-                // Hover Out: Close popup immediately
-                poly.addListener("mouseout", () => {
-                    if (routeInfoWindow) {
-                        routeInfoWindow.close();
-                    }
-                });
+                    poly.addListener("mouseout", () => {
+                        if (routeInfoWindow) {
+                            routeInfoWindow.close();
+                        }
+                    });
+                }
 
-                // Clicking selects the route
-                poly.addListener("click", () => {
-                    selectRoute(routeIdx);
+                poly.addListener("click", (e) => {
+                    if (isTouchDevice()) {
+                        selectRoute(routeIdx, true);
+                        if (routeInfoWindow) {
+                            routeInfoWindow.setContent(infoContent);
+                            routeInfoWindow.setPosition(e.latLng);
+                            routeInfoWindow.open(map);
+                        }
+                    } else {
+                        selectRoute(routeIdx);
+                    }
                 });
 
                 routePolylines.push(poly);
@@ -1219,7 +1464,7 @@
 
                 data.places.forEach(p => {
                     const info = new google.maps.InfoWindow({
-                        content: `<div style="color:#0f172a; font-family:sans-serif; padding:4px;"><strong>${p.name}</strong><br><span style="color:#f59e0b;">★ ${p.rating}</span><br><small style="color:#64748b;">${p.address}</small></div>`
+                        content: `<div style="color:#0f172a; font-family:sans-serif; padding:4px; max-width:220px;"><strong>${p.name}</strong><br><span style="color:#f59e0b;">★ ${p.rating}</span><br><small style="color:#64748b;">${p.address}</small></div>`
                     });
 
                     let marker;
@@ -1243,6 +1488,10 @@
                     }
                     poiMarkers.push(marker);
                 });
+
+                if (window.innerWidth <= 768 && data.places.length > 0) {
+                    toggleDrawer(true);
+                }
             } catch (err) {
                 console.error("searchPOIsAlongRoute error:", err);
             }
